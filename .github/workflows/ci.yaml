@@ -1,0 +1,36 @@
+name: CI Workflow                   # The name shown in the Actions tab for this workflow
+
+on:                                 # Events that trigger this workflow
+  push:                             # 1) When you push commits…
+    branches: [ "main", "dev" ]     # …only if the target branch is main or dev
+  pull_request:                     # 2) When a Pull Request is opened/synchronized/reopened…
+    branches: [ "main", "dev" ]     # …and it targets main or dev
+
+jobs:                               # A workflow can have one or more jobs
+  build:                            # Job ID (your choice). This job is named "build"
+    runs-on: ubuntu-latest          # Use GitHub’s Ubuntu virtual machine to run the job
+
+    steps:                          # Steps run in order inside the job's VM
+      - uses: actions/checkout@v4   # Step 1: Check out your repository code into the VM
+
+      - name: Set up Python         # Step 2: Install and activate Python on the VM
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'    # Specify the Python version for the job (3.12 here)
+
+      - name: Install dependencies  # Step 3: Install your project dependencies
+        run: |                      # The pipe means run a multi-line shell script
+          python -m pip install --upgrade pip   # Upgrade pip itself
+          pip install -r requirements.txt       # Install everything listed in requirements.txt
+
+      - name: Lint with flake8      # Step 4: Static code check (style/quality)
+        run: |
+          pip install flake8        # Install the linter
+          flake8 src/               # Lint your source folder; non-zero exit fails the job
+
+      - name: Run tests with coverage        # Step 5: Run tests and measure coverage
+        run: |
+          pytest --cov=src --cov-report=term-missing
+          # pytest must be available (usually via requirements.txt).
+          # --cov=src measures coverage for code under src/
+          # --cov-report=term-missing prints lines not covered by tests
