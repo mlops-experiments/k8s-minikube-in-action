@@ -2,18 +2,33 @@
 Deployment of app in mini kube 
 
 
-## To view streamlit app on a browser, run with 
+### To view streamlit app on a browser, run with 
 
 ```bash
 streamlit run src/app.py
 ```
 
-## Build docker image
+### Build docker image
 ```bash
 docker build -t my-streamlit-app .
 ```
 
-## Run the container, mapping port 8501
+### Run the container, mapping port 8501
 ```bash
 docker run -p 8501:8501 my-streamlit-app
 ```bash
+
+### Deployment in minikube
+
+- create deployment.yaml file
+- take appropiratae image name
+
+### Deployment
+```bash
+kubectl apply -f deployment/deployment.yaml
+```
+
+### access your app
+```bash
+minikube service streamlit-service
+```
