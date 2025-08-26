@@ -12,8 +12,7 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Expose Streamlit default port
-EXPOSE 8501
+
 
 # Run the Streamlit app
-CMD ["streamlit", "run", "src/app.py"]
+CMD ["streamlit", "run", "src/app.py", "--server.address=0.0.0.0", "--server.port=8501"]

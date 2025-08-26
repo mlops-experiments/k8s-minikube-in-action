@@ -11,10 +11,12 @@ n = st.number_input("Enter an integer", value=1, step=1)
 
 # Calculate results
 square = square(n)
-cube = cube
+cube = cube(n)
 fifth_power = fifth_power(n)
 
 # Display results
 st.write(f"The square of {n} is: {square}")
 st.write(f"The cube of {n} is: {cube}")
 st.write(f"The fifth power of {n} is: {fifth_power}")
+
+print("Streamlit app is running...")
